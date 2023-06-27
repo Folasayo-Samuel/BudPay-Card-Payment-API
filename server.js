@@ -19,7 +19,7 @@ app.post("/api/v1/initialize-transaction", async (req, res) => {
     } = req.body;
 
     const response = await axios.post(
-      "https://api.budpay.com/api/s2s/v2/transaction/initialize",
+      "https://api.budpay.com/api/v2/transaction/initialize",
       {
         amount,
         cardNumber,
