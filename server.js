@@ -9,7 +9,16 @@ app.use(express.json());
 
 app.post("/api/v1/initialize-transaction", async (req, res) => {
   try {
-    const { amount, cardNumber, cardExpMonth, cardExpYear, cardCvv } = req.body;
+    const {
+      amount,
+      cardNumber,
+      cardExpMonth,
+      cardExpYear,
+      cardCvv,
+      reference,
+      email,
+      currency,
+    } = req.body;
 
     const response = await axios.post(
       "https://api.budpay.com/api/s2s/v2/transaction/initialize",
@@ -19,6 +28,9 @@ app.post("/api/v1/initialize-transaction", async (req, res) => {
         cardExpMonth,
         cardExpYear,
         cardCvv,
+        reference,
+        email,
+        currency,
       },
       {
         headers: {
