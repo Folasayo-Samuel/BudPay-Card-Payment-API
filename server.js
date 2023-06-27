@@ -5,39 +5,57 @@ const { apiKey, apiSecret } = require("./config");
 const app = express();
 app.use(express.json());
 
-app.post("/api/v1/process-payment", async (req, res) => {
+app.post("/api/v1/initialize-transaction", async (req, res) => {
   try {
-    const { amount, cardNumber, cardExpMonth, cardExpYear, cardCvv } = req.body;
+    const {
+      publicKey,
+      amount,
+      currency,
+      country,
+      paymentReference,
+      email,
+      productId,
+      productDescription,
+      callbackUrl,
+    } = req.body;
 
     const response = await axios.post(
-      "https://apis.budpay.ng/api/v2/payments",
+      "https://api.budpay.ng/api/v2/payments",
       {
+        publicKey,
         amount,
-        cardNumber,
-        cardExpMonth,
-        cardExpYear,
-        cardCvv,
+        currency,
+        country,
+        paymentReference,
+        email,
+        productId,
+        productDescription,
+        callbackUrl,
       },
       {
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": apiKey,
-          "X-API-Secret": apiSecret,
+          Authorization: `Bearer ${apiKey}`,
         },
       }
     );
 
     if (response.data.success) {
-      res.json({ success: true, message: "Payment successful!" });
+      res.json({ success: true, link: response.data.redirectLink });
     } else {
-      res.json({ success: false, message: "Payment failed." });
+      res.json({
+        success: false,
+        message: "Failed to initialize transaction.",
+      });
     }
   } catch (error) {
-    console.error("Error processing payment:", error);
-    res.status(500).json({
-      success: false,
-      message: "An error occurred while processing the payment.",
-    });
+    console.error("Error initializing transaction:", error);
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "An error occurred while initializing the transaction.",
+      });
   }
 });
 
