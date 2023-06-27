@@ -1,8 +1,6 @@
 const express = require("express");
 const axios = require("axios");
-// const BudPaySDK = require("budpay-node");
 const { apiPublicKey, apiSecret } = require("./config");
-// const budPay = new BudPaySDK(apiPublicKey, apiSecret);
 
 const app = express();
 app.use(express.json());
