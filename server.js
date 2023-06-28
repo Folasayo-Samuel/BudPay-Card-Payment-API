@@ -1,6 +1,6 @@
 const express = require("express");
 const axios = require("axios");
-const { apiPublicKey, apiSecret } = require("./config");
+const { apiPublicKey, apiSecretKey } = require("./config");
 
 const app = express();
 app.use(express.json());
@@ -34,7 +34,7 @@ app.post("/api/v1/initialize-transaction", async (req, res) => {
         headers: {
           "Content-Type": "application/json",
           "X-API-Key": apiPublicKey,
-          "X-API-Secret": apiSecret,
+          "X-API-Secret": apiSecretKey,
         },
       }
     );
